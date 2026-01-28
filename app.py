@@ -1,8 +1,8 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def hello():
     return 'Hello, World!'
 
@@ -14,9 +14,11 @@ def index():
 def home():
     return 'Welcome to the Home Page!'
 
-@app.route('/about')
+@app.route('/about', methods=['POST'])
 def about():
-    return 'This is the About Page.'
+    if request.method == 'POST':
+        name=request.form.get('name')
+        return f'Hello, {name}! This is the About Page.'
 
 if __name__ == '__main__':
     app.run(debug=True) 
